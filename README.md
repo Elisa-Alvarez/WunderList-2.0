@@ -15,7 +15,7 @@ Database Table Layout
 ## Items
 
 
-## UserItems
+## UserSharedItems
 
 
 # Security
