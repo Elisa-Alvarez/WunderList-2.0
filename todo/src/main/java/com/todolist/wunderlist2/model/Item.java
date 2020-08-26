@@ -12,31 +12,34 @@ public class Item extends Auditable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long itemid;
 
-    @Column(nullable = false,unique = true)
-    private String title;
+    @Column(nullable = false)
+    private String name;
 
-    @Column(nullable = false,
-    unique = true)
+    @Column(nullable = false)
     private String description;
 
-    private boolean completed;
+    @Column(nullable = false)
+    private String done;
 
 
     @ManyToOne
-    @JoinColumn(name = "userid",
+    @JoinColumn(name = "categoryid",
             nullable = false)
     @JsonIgnoreProperties(value = "items",
             allowSetters = true)
-    private User user;
+    private Category category;
+
+
 
 
     public Item() {
     }
 
-    public Item(String title, String description, boolean completed) {
-        this.title = title;
+    public Item(String name, String description, String done, Category category) {
+        this.name = name;
         this.description = description;
-        this.completed = completed;
+        this.done = done;
+        this.category = category;
     }
 
     public long getItemid() {
@@ -47,12 +50,12 @@ public class Item extends Auditable{
         this.itemid = itemid;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -63,11 +66,19 @@ public class Item extends Auditable{
         this.description = description;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public String getDone() {
+        return done;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setDone(String done) {
+        this.done = done;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
