@@ -3,4 +3,4 @@
 ## Java 14 w/ Spring Boot Framework
 
 Database Table Layout
-![Database-image](wunderlist2.png)
+![Database-image](wunderlist2.PNG)
