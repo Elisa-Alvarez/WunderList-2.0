@@ -1,4 +1,4 @@
 package com.todolist.wunderlist2.controllers;
 
-public class LoginController {
+public class CategoryController {
 }
