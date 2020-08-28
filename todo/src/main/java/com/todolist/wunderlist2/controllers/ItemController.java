@@ -66,7 +66,7 @@ public class ItemController {
 
     // http://localhost:2020/items/patch/:itemid
 
-    @PutMapping(value = "/patch/{itemid}", consumes = "application/json")
+    @PatchMapping(value = "/patch/{itemid}", consumes = "application/json")
     public ResponseEntity<?> patchItem(@RequestBody Item updateitem, @PathVariable long itemid) {
         itemService.patchItem(updateitem,itemid);
 
