@@ -16,10 +16,6 @@ public class LogoutController {
     @Autowired
     private TokenStore tokenStore;
 
-    /*
-    Allows the authenticated user to logout
-    Route (GET): http://localhost:5280/logout
-    */
     @RequestMapping(value = {"/oauth/revoke-token", "/logout"}, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public void logoutSelf(HttpServletRequest request) {
