@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CategoryReopsitory extends CrudRepository<Category,Long> {
    // List<Category> findByTitleContainingIgnoreCase(String title);
-    List<Category> findByTitleIgnoringCase(String title);
+    List<Category> findByTitleContainingIgnoringCase(String title);
 }

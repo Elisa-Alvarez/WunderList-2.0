@@ -39,7 +39,7 @@ public class CategoryController {
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
     // http://localhost:2020/categories/:letter
-    @GetMapping(value = "/{letter}",produces = "application/json")
+    @GetMapping(value = "/search/{letter}",produces = "application/json")
     public ResponseEntity<?> findLikeTitle (@PathVariable String letter)
     {
         List<Category> name = categoryServices.findLikeTitle(letter);

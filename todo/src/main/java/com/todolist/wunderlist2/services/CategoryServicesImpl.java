@@ -31,11 +31,8 @@ public class CategoryServicesImpl implements CategoryServices{
     @Override
     public List<Category> findLikeTitle(String title)
     {
-        List <Category> c = new ArrayList<>();
-        categoryReopsitory.findByTitleIgnoringCase(title)
-                .iterator()
-                .forEachRemaining(c::add);
-       return c;
+       return categoryReopsitory.findByTitleContainingIgnoringCase(title);
+
     }
 
     @Override
@@ -78,12 +75,5 @@ public class CategoryServicesImpl implements CategoryServices{
         categoryReopsitory.deleteById(categoryid);
     }
 
-    @Transactional
-    @Override
-    public Category save(Category finalCat) {
-        Category newCat = new Category();
-
-        return categoryReopsitory.save(finalCat);
-    }
 }
 
