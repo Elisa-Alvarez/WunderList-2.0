@@ -24,7 +24,7 @@ Method | Endpoint | Description | Required Data
 --- | --- | --- | ---
 GET | /categories | Returns all Todo Lists and their associated Items
 GET | /categories/:category | Returns a Category Arraylist by categoryid and Items is an array nested inside.
-POST | /categories/:userid | Creates a new Category for that specific User
+POST | /categories/:userid | Creates a new Category for that specific User | `"title"`
 PUT | /categories/:categoryid/:title | Updates/Changes the title of an existing Todo List
 DELETE | /categories/:categoryid | Deletes a Todo List and it's associated Items
 
