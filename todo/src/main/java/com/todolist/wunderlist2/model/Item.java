@@ -3,6 +3,7 @@ package com.todolist.wunderlist2.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="items")
@@ -19,27 +20,69 @@ public class Item extends Auditable{
     private String description;
 
     @Column(nullable = false)
+    private LocalDate due;
+
+    private String date;
+
+    @Column(nullable = false)
     private String done;
 
+    @Column(nullable = false)
+    private int repeat;
+
+    @Column(nullable = false)
+    private boolean isShared;
 
     @ManyToOne
-    @JoinColumn(name = "categoryid",
-            nullable = false)
-    @JsonIgnoreProperties(value = "items",
-            allowSetters = true)
+    @JoinColumn(name ="categoryid",nullable = false)
+    @JsonIgnoreProperties(value = "items", allowSetters = true)
     private Category category;
-
-
 
 
     public Item() {
     }
 
-    public Item(String name, String description, String done, Category category) {
+    public Item(String name, String description, String date, int repeat, String done, boolean isShared, Category category) {
         this.name = name;
         this.description = description;
         this.done = done;
+         this.due = LocalDate.parse(date);
+         this.repeat= repeat;
         this.category = category;
+        this.isShared = isShared;
+    }
+
+    public int getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
+    public LocalDate getDue() {
+        return due;
+    }
+
+    public void setDue(LocalDate due) {
+        this.due = due;
+    }
+
+    public boolean isShared() {
+        return isShared;
+    }
+
+    public void setShared(boolean shared) {
+        isShared = isShared;
     }
 
     public long getItemid() {

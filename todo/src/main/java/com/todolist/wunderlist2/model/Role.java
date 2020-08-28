@@ -17,6 +17,12 @@ public class Role extends Auditable {
     @Column(nullable = false)
     private String role;
 
+    @OneToMany(mappedBy = "role",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnoreProperties(value = "role", allowSetters = true)
+    private Set<UserRoles> users = new HashSet<>();
+
     public Role() {
     }
 
@@ -24,14 +30,21 @@ public class Role extends Auditable {
         this.role = role;
     }
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = "roles", allowSetters = true)
-    private Set<RoleId> roleIds = new HashSet<>();
-
     public long getRoleid() {
         return roleid;
     }
 
+    public void setRoleid(long roleid) {
+        this.roleid = roleid;
+    }
+
+    public Set<UserRoles> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<UserRoles> users) {
+        this.users = users;
+    }
 
     public String getRole() {
         return role;

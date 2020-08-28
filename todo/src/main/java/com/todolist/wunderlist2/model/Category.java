@@ -3,6 +3,8 @@ package com.todolist.wunderlist2.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -15,8 +17,13 @@ public class Category extends Auditable {
     private String Title;
 
     @ManyToOne
+    @JoinColumn(name = "userid", nullable = false)
     @JsonIgnoreProperties(value = "categories", allowSetters = true)
     private User user;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = "categories", allowSetters = true)
+    private List<Item> items = new ArrayList<>();
 
     public Category() {
     }
@@ -24,6 +31,14 @@ public class Category extends Auditable {
     public Category(String title, User user) {
         Title = title;
         this.user = user;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     public long getCategoryid() {
