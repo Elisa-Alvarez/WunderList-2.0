@@ -42,7 +42,7 @@ public class ItemController {
    // http://localhost:2020/items/:categoryid
 
     @PostMapping(value = "/{categoryid}", consumes = "application/json")
-    public ResponseEntity<?> savNewItem(@PathVariable long categoryid, @Valid @RequestBody Item newitem) throws URISyntaxException {
+    public ResponseEntity<?> saveNewItem(@PathVariable long categoryid, @Valid @RequestBody Item newitem) throws URISyntaxException {
 
         newitem = itemService.saveNewItem(categoryid, newitem);
 
@@ -56,19 +56,19 @@ public class ItemController {
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
-     //http://localhost:2020/items/update/:itemid
+     //http://localhost:2020/items/update/:itemid Replace an entire Item
 
 
     @PutMapping(value = "/update/{itemid}", consumes = "application/json")
-    public ResponseEntity<?> updateFullItem(@Valid @RequestBody Item updateitem, @PathVariable long itemid) {
-        return new ResponseEntity<>("Created a new item",HttpStatus.OK);
+    public ResponseEntity<?> updateItem(@Valid @RequestBody Item updateitem, @PathVariable long itemid) {
+        return new ResponseEntity<>(updateitem,HttpStatus.OK);
     }
 
-    // http://localhost:2020/items/:itemid
+    // http://localhost:2020/items/patch/:itemid
 
-    @PutMapping(value = "/{itemid}", consumes = "application/json")
-    public ResponseEntity<?> updateItemContent(@RequestBody Item updateitem, @PathVariable long itemid) {
-        itemService.updateItem(updateitem, itemid);
+    @PutMapping(value = "/patch/{itemid}", consumes = "application/json")
+    public ResponseEntity<?> patchItem(@RequestBody Item updateitem, @PathVariable long itemid) {
+        itemService.patchItem(updateitem,itemid);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -77,7 +77,7 @@ public class ItemController {
     // http://localhost:5280/items/:itemid
 
     @DeleteMapping(value = "/{itemid}")
-    public ResponseEntity<?> trashItem(@PathVariable long itemid) {
+    public ResponseEntity<?> deleteItem(@PathVariable long itemid) {
         itemService.deleteItem(itemid);
 
         return new ResponseEntity<>(HttpStatus.OK);

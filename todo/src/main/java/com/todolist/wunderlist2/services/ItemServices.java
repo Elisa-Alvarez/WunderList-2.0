@@ -12,9 +12,9 @@ public interface ItemServices {
 
     Item saveNewItem(long categoryid, Item item);
 
-    Item patchItem(long itemid, Item item);
+    Item updateItem(long itemid, Item item);
 
-    Item updateItem(Item item, long itemid);
+    Item patchItem(Item item, long itemid);
 
     void deleteItem(long itemid);
 }

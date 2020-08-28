@@ -49,7 +49,7 @@ public class ItemServicesImpl implements ItemServices {
 
     @Transactional
     @Override
-    public Item patchItem(long itemid, Item item) {
+    public Item updateItem(long itemid, Item item) {
 
 
         if(itemrepos.findById(itemid).isPresent()) {
@@ -59,6 +59,8 @@ public class ItemServicesImpl implements ItemServices {
             currentItem.setDescription(item.getDescription());
             currentItem.setDue(newDate);
             currentItem.setRepeat(item.getRepeat());
+            currentItem.setDone(item.getDone());
+            currentItem.setShared(item.isShared());
 
             return itemrepos.save(currentItem);
         } else throw new ResourceNotFoundException("Item with id: " + itemid + " was not found.");
@@ -67,19 +69,20 @@ public class ItemServicesImpl implements ItemServices {
 
     @Transactional
     @Override
-    public Item updateItem(Item item, long itemid) {
+    public Item patchItem(Item item, long itemid) {
         Item currentItem = itemrepos.findById(itemid)
                 .orElseThrow(() -> new EntityNotFoundException("Item id: " + itemid + " was not found.")); // Change to ResponseNotFoundException
 
 
         if(item.getName() != null) currentItem.setName(item.getName());
         if(item.getDescription() != null) currentItem.setDescription(item.getDescription());
-        if(item.getDate() != null) {
-            LocalDate newLocalDate = LocalDate.parse(item.getDate());
-            currentItem.setDue(newLocalDate);
+        if(item.getDate() != null) {LocalDate newLocalDate = LocalDate.parse(item.getDate());
+        currentItem.setDue(newLocalDate);
         }
         if(item.getRepeat() != 0) currentItem.setRepeat(item.getRepeat());
         if(item.getCategory() != null) currentItem.setCategory(item.getCategory());
+        if(item.getDone() != null) currentItem.setDone(item.getDone());
+        if(item.isShared() != true) currentItem.setShared(item.isShared());
 
         return itemrepos.save(currentItem);
     }

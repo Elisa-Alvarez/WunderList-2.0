@@ -68,7 +68,6 @@ public class Item extends Auditable{
         this.date = date;
     }
 
-
     public LocalDate getDue() {
         return due;
     }
@@ -82,7 +81,7 @@ public class Item extends Auditable{
     }
 
     public void setShared(boolean shared) {
-        isShared = isShared;
+        this.isShared = isShared;
     }
 
     public long getItemid() {

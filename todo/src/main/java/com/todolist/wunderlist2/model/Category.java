@@ -14,7 +14,7 @@ public class Category extends Auditable {
     private long categoryid;
 
     @Column(nullable = false)
-    private String Title;
+    private String title;
 
     @ManyToOne
     @JoinColumn(name = "userid", nullable = false)
@@ -29,7 +29,7 @@ public class Category extends Auditable {
     }
 
     public Category(String title, User user) {
-        Title = title;
+        this.title = title;
         this.user = user;
     }
 
@@ -50,11 +50,11 @@ public class Category extends Auditable {
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title= title;
     }
 
     public User getUser() {

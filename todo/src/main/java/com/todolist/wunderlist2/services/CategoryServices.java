@@ -17,5 +17,4 @@ public interface CategoryServices {
 
     void delete(long categoryid);
 
-    Category save(Category category);
 }
