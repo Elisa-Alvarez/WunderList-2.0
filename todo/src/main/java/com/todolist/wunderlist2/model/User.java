@@ -1,10 +1,18 @@
 package com.todolist.wunderlist2.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -17,10 +25,11 @@ public class User extends Auditable{
     @Column(nullable = false,unique = true)
     private String username;
 
-    @Column(nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
+    @Column(nullable = false, unique = true)
     private String password;
 
+   @Email
    @Column(nullable = false)
     private  String useremail;
 
@@ -30,15 +39,42 @@ public class User extends Auditable{
    @Column(nullable = false)
     private String lastname;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value = "user", allowSetters = true)
+    private List<Category> categories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnoreProperties(value = "user", allowSetters = true)
+    private Set<UserRoles> roles = new HashSet<>();
+
     public User() {
     }
 
-    public User(String username, String password, String useremail, String firstname, String lastname) {
+    public User(String username, String password, @Email String useremail, String firstname, String lastname) {
         this.username = username;
         setPassword(password);
         this.useremail = useremail;
         this.firstname = firstname;
         this.lastname = lastname;
+
+    }
+
+    public Set<UserRoles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UserRoles> roles) {
+        this.roles = roles;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public long getUserid() {
@@ -62,6 +98,11 @@ public class User extends Auditable{
     }
 
     public void setPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public void setPasswordNoEncrypt(String password) {
         this.password = password;
     }
 
@@ -88,4 +129,18 @@ public class User extends Auditable{
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+    @JsonIgnore
+    public List<SimpleGrantedAuthority> getAuthority()
+    {
+        List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
+
+        for (UserRoles r : this.roles)
+        {
+            String myRole = "ROLE_" + r.getRole().getRole().toUpperCase();
+            rtnList.add(new SimpleGrantedAuthority(myRole));
+        }
+
+        return rtnList;
+    }
+
 }
