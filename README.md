@@ -4,7 +4,7 @@
 
 Database Table Layout
 
-![Database-image](wunderlist2.0.PNG)
+![Database-image](wunderlis2.0.PNG)
 
 ## Users
 Method | Endpoint | Description | Required Data
