@@ -31,7 +31,7 @@ public class UserController {
         return new ResponseEntity<>(totalUsers, HttpStatus.OK);
     }
 
-    //http://localhost:2020/users/:userid
+    //http://localhost:2020/users/user/:userid
 
     @GetMapping(value = "user/{userid}", produces = "application/json")
     public ResponseEntity<?> findUser(@PathVariable long userid) {

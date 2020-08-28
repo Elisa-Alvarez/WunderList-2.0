@@ -2,6 +2,7 @@ package com.todolist.wunderlist2.controllers;
 
 
 import com.todolist.wunderlist2.model.Category;
+import com.todolist.wunderlist2.model.Item;
 import com.todolist.wunderlist2.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.todolist.wunderlist2.services.CategoryServices;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -45,11 +47,12 @@ public class CategoryController {
         List<Category> name = categoryServices.findLikeTitle(letter);
         return new ResponseEntity<>(name,HttpStatus.OK);
     }
-   // http://localhost:2020/categories/:userid/:title
+   // http://localhost:2020/categories/:userid
 
-    @PostMapping(value = "/{userid}/{title}", consumes = "application/json")
-    public ResponseEntity<?> createTodo(@PathVariable long userid, @PathVariable String title) throws URISyntaxException {
-        Category newCat = categoryServices.saveCategory(userid, title);
+    @PostMapping(value = "/{userid}", consumes = "application/json")
+    public ResponseEntity<?> createTodo(@PathVariable long userid, @Valid @RequestBody Category category) throws URISyntaxException {
+
+        Category newCat = categoryServices.saveCategory(userid,category.getTitle());
 
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newTodoURI = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -62,23 +65,20 @@ public class CategoryController {
     }
 
 
-   // http://localhost:2020/todos/:todoid/t/:title
-    @PutMapping(value = "//{title}", consumes = "application/json")
-    public ResponseEntity<?> updateTodo(@PathVariable long todoid, @PathVariable String title) {
-        categoryServices.updateCategories(todoid, title);
+   // http://localhost:2020/categories/:categoryid/:title
+    @PutMapping(value = "/{categoryid}/{title}", consumes = "application/json")
+    public ResponseEntity<?> updateCategories(@PathVariable long categoryid, @PathVariable String title) {
+        categoryServices.updateCategories(categoryid, title);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // No PatchMapping needed since it'll literally be no different than the PutMapping above for this table
 
-    /*
-    Delete a Todolist and all of it's associated Items
-    http://localhost:5280/todos/:todoid
-    */
-    @DeleteMapping(value = "/{todoid}")
-    public ResponseEntity<?> deleteTodo(@PathVariable long todoid) {
-        categoryServices.delete(todoid);
+   // http://localhost:5280/categories/:categoryid
+
+    @DeleteMapping(value = "/{categoryid}")
+    public ResponseEntity<?> delete(@PathVariable long categoryid) {
+        categoryServices.delete(categoryid);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
