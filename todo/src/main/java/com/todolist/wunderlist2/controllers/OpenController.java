@@ -2,6 +2,8 @@ package com.todolist.wunderlist2.controllers;
 
 import com.todolist.wunderlist2.model.User;
 import com.todolist.wunderlist2.model.UserMinnimum;
+import com.todolist.wunderlist2.model.UserRoles;
+import com.todolist.wunderlist2.services.RoleService;
 import com.todolist.wunderlist2.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -18,14 +20,19 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class OpenController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
+    @Autowired
+    private RoleService roleService;
+
+    @PostMapping(value = "/users/sign-up", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> addNewAccount(HttpServletRequest httpServletRequest,
                                            @Valid @RequestBody UserMinnimum newminuser) throws URISyntaxException {
         User createdUser = new User();
@@ -38,7 +45,13 @@ public class OpenController {
         createdUser.setLastname(newminuser.getLastname());
 
 
+        Set<UserRoles> newRoles = new HashSet<>();
+        newRoles.add(new UserRoles(createdUser,
+                roleService.findByRole("user")));
+        createdUser.setRoles(newRoles);
+
         createdUser = userService.save(createdUser);
+
 
         HttpHeaders responseHeaders = new HttpHeaders();
         URI createdUserURI = ServletUriComponentsBuilder.fromUriString(httpServletRequest.getServerName() + ":" +

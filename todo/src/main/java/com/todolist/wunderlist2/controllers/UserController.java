@@ -33,20 +33,27 @@ public class UserController {
 
     //http://localhost:2020/users/:userid
 
-    @GetMapping(value = "/{userid}", produces = "application/json")
+    @GetMapping(value = "user/{userid}", produces = "application/json")
     public ResponseEntity<?> findUser(@PathVariable long userid) {
-        User foundUser = userService.findUserId(userid);
+        User foundUser = userService.findUser(userid);
 
         return new ResponseEntity<>(foundUser, HttpStatus.OK);
     }
 
-    // http://localhost:2020/users/:username
+    // http://localhost:2020/users/search/:letter  will bring up any user containing that letter
+    @GetMapping(value = "search/{letter}", produces = "application/json")
+    public ResponseEntity<?> findnamelikeUser (@PathVariable String letter)
+    {
+        List<User> name = userService.findnamelikeUser(letter);
+        return new ResponseEntity<>(name,HttpStatus.OK);
+    }
+
+    // http://localhost:2020/users/:username   must type in exsact username
 
     @GetMapping(value = "/{username}", produces = "application/json")
-    public ResponseEntity<?> findByUsername(@PathVariable String username) {
-        User usernamed = userService.findUsername(username);
-
-        return new ResponseEntity<>(usernamed, HttpStatus.OK);
+    public ResponseEntity<?> findUserByUsername(@PathVariable String username) {
+        User u = userService.findUserByUsername(username);
+        return new ResponseEntity<>(u, HttpStatus.OK);
     }
 
 

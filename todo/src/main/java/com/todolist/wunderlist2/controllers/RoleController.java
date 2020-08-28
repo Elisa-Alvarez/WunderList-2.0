@@ -95,8 +95,7 @@ public class RoleController
             @RequestBody
                     Role newRole)
     {
-        newRole = roleService.update(roleid,
-                newRole);
+        newRole = roleService.putUpdateRole(roleid,newRole);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
